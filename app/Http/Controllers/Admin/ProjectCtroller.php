@@ -23,7 +23,7 @@ class ProjectCtroller extends Controller
         // $projects = Project::all();
         $user = Auth::id();
         // dd(Auth::user());
-        $projects = Project::where('user_id', $user)->paginate($perPage);
+        $projects = Project::with(['type', 'technologys', 'user'])->where('user_id', $user)->paginate($perPage);
         return view('admin.projects.index', compact('projects'));
     }
 
