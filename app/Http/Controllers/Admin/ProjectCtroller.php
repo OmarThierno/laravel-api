@@ -25,7 +25,7 @@ class ProjectCtroller extends Controller
         // $projects = Project::all();
         $user = Auth::id();
         // dd(Auth::user());
-        $projects = Project::with(['type', 'technologys', 'user'])->where('user_id', $user)->paginate($perPage);
+        $projects = Project::recent()->with(['type', 'technologys', 'user'])->where('user_id', $user)->paginate($perPage);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -50,7 +50,7 @@ class ProjectCtroller extends Controller
         $data["user_id"] = Auth::id();
         $newProject = new Project();
         $newProject->fill($data);
-        $newProject->slug = Str::slug($request->name);
+        // $newProject->slug = Str::slug($request->name);
         $newProject->save();
 
         if($request->has('technologies')) {
@@ -100,7 +100,7 @@ class ProjectCtroller extends Controller
             abort(403); 
         }
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
+        // $data['slug'] = Str::slug($data['name']);
         $project->update($data);
 
         $project->technologys()->sync($request->technologies);
