@@ -21,7 +21,8 @@ class LeadController extends Controller
         Mail::to(env('MAIL_FROM_ADDRESS'))->send(new NewContact($newLead));
 
         return response()->json([
-            'results'=> 'OK'
+            'results'=> 'OK',
+            'success'=> true
         ]);
     }
 }
