@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use function PHPSTORM_META\type;
+
 class ProjectCtroller extends Controller
 {
     /**
@@ -32,8 +34,9 @@ class ProjectCtroller extends Controller
      */
     public function create()
     {
+        $types = Type::all();
         $technologies = Technology::all();
-        return view('admin.projects.create', compact('technologies'));
+        return view('admin.projects.create', compact('technologies', 'types'));
     }
 
     /**
@@ -41,6 +44,7 @@ class ProjectCtroller extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        // dd($request->all());
         // $data = $request->all();
         $data = $request->validated(); //solo le richieste validate
         $data["user_id"] = Auth::id();
@@ -63,8 +67,9 @@ class ProjectCtroller extends Controller
         if($project->user_id !== Auth::id()){
             abort(403); // non serve mettere l'errore corretta, avolte possiamo fingere un'altro errore cosi da non fare capire la struttura del nostro database
         }
+        $type = Type::where('id', $project->type_id)->get();
         $technologies = Technology::all();
-        return view('admin.projects.show', compact('project', 'technologies'));
+        return view('admin.projects.show', compact('project', 'technologies', 'type'));
     }
 
     /**
@@ -94,7 +99,7 @@ class ProjectCtroller extends Controller
         if($project->user_id !== Auth::id()){
             abort(403); 
         }
-        $data = $request->all();
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['name']);
         $project->update($data);
 

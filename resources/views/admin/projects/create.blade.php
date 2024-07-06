@@ -12,6 +12,15 @@
                 <input type="text" class="form-control" id="name" placeholder="laraverl controller" name="name" value="{{old('name')}}">
             </div>
             <div class="mb-3">
+                <label for="type">Type</label>
+                <select class="form-select" aria-label="Default select example" name="type_id">
+                    <option selected>Open this select type</option>
+                    @foreach ($types as $type)
+                        <option value="{{$type->id}}">{{$type->name}}</option>
+                    @endforeach
+                  </select>
+            </div>
+            <div class="mb-3">
                 <label for="description" class="form-label">Inserisci una descrizione</label>
                 <textarea class="form-control" id="description" rows="3" name="description">{{old('description')}}</textarea>
             </div>

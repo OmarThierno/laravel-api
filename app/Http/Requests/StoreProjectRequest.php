@@ -24,7 +24,7 @@ class StoreProjectRequest extends FormRequest
         return [
             'name'=> ['required'],
             'description'=> ['nullable', 'min:10'],
-            ''
+            'type_id'=> ['required']
         ];
     }
 
